@@ -1,3 +1,5 @@
+// Testing new rules
+
 function main() {
   const formEl = document.querySelector<HTMLFormElement>('#form');
   const tableEl = document.querySelector<HTMLTableElement>('#table');
