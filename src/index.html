@@ -1,48 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Budgeit</title>
-  <link href="style.css" rel="stylesheet">
-  <script src="index.ts" async></script>
-</head>
-<body class="flex flex-col justify-center items-center min-h-screen min-w-screen">
-
-<form id="form" class="flex flex-col w-md">
-  <label for="category" class="text-sm font-bold">Category</label>
-  <select
-      class="border-solid border-1 border-b-neutral-600 rounded-2xl w-full p-[12px]"
-      name="category"
-      id="category"
-      required
+  <head>
+    <meta charset="UTF-8" />
+    <title>Budgeit</title>
+    <link href="style.css" rel="stylesheet" />
+    <script src="index.ts" async></script>
+  </head>
+  <body
+    class="flex flex-col justify-center items-center min-h-screen min-w-screen"
   >
-    <option value="Groceries">Groceries</option>
-    <option value="Food">Food</option>
-  </select>
+    <form id="form" class="flex flex-col w-md">
+      <label for="category" class="text-sm font-bold">Category</label>
+      <select
+        class="border-solid border-1 border-b-neutral-600 rounded-2xl w-full p-[12px]"
+        name="category"
+        id="category"
+        required
+      >
+        <option value="Groceries">Groceries</option>
+        <option value="Food">Food</option>
+      </select>
 
-  <label for="amount" class="mt-[12px] text-sm font-bold">Amount</label>
-  <input
-      class="border-solid border-1 border-b-neutral-600 rounded-2xl w-full p-[12px]"
-      type="number"
-      name="amount"
-      id="amount"
-      required
-      min="0"
-  >
+      <label for="amount" class="mt-[12px] text-sm font-bold">Amount</label>
+      <input
+        class="border-solid border-1 border-b-neutral-600 rounded-2xl w-full p-[12px]"
+        type="number"
+        name="amount"
+        id="amount"
+        required
+        min="0"
+      />
 
-  <button
-      class="p-[12px] bg-blue-800 text-white rounded-2xl cursor-pointer mt-[24px]"
-      type="submit"
-  >
-    Add
-  </button>
-</form>
+      <button
+        class="p-[12px] bg-blue-800 text-white rounded-2xl cursor-pointer mt-[24px]"
+        type="submit"
+      >
+        Add
+      </button>
+    </form>
 
-<table id="table" class="w-lg border-solid border-1 border-neutral-600 mt-[48px]">
-  <tr>
-    <th class="border-r-solid border-r-1 border-r-neutral-600">Category</th>
-    <th>Amount</th>
-  </tr>
-</table>
-</body>
+    <table
+      id="table"
+      class="w-lg border-solid border-1 border-neutral-600 mt-[48px]"
+    >
+      <tr>
+        <th class="border-r-solid border-r-1 border-r-neutral-600">Category</th>
+        <th>Amount</th>
+      </tr>
+    </table>
+  </body>
 </html>
