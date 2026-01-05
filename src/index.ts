@@ -32,14 +32,14 @@ export function onSubmit(
   formEl.reset();
 }
 
-function main() {
+export function main() {
   const formEl = document.querySelector<HTMLFormElement>("#form");
   const tableEl = document.querySelector<HTMLTableElement>("#table");
 
   if (formEl && tableEl) {
     formEl.addEventListener("submit", (e) => onSubmit(e, formEl, tableEl));
   } else {
-    console.error("Form not found.");
+    console.error("Form not found");
   }
 }
 

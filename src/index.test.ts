@@ -1,16 +1,13 @@
-import { beforeEach, describe, expect, test, vi } from "vitest";
-import { onSubmit } from "./index";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { main, onSubmit } from "./index";
 
-describe("onSubmit", () => {
-  let e: SubmitEvent;
+describe("Expense tracker", () => {
   let formEl: HTMLFormElement,
     tableEl: HTMLTableElement,
     categoryInputEl: HTMLInputElement,
     amountInputEl: HTMLInputElement;
 
   beforeEach(() => {
-    e = new SubmitEvent("");
-
     formEl = document.createElement("form");
     tableEl = document.createElement("table");
 
@@ -23,42 +20,118 @@ describe("onSubmit", () => {
     formEl.appendChild(amountInputEl);
   });
 
-  function setFormValues(category: string, amount: number) {
-    categoryInputEl.value = category;
-    amountInputEl.value = String(amount);
+  function setFormValues(category: string | null, amount: number | null) {
+    if (typeof category === "string") {
+      categoryInputEl.value = category;
+    }
+
+    if (typeof amount === "number") {
+      amountInputEl.value = String(amount);
+    }
   }
 
-  function submit() {
-    onSubmit(e, formEl, tableEl);
-  }
+  describe("main", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error");
 
-  test("prevents default on the submit event", () => {
-    setFormValues("Groceries", 12);
-    const preventDefaultSpy = vi.spyOn(e, "preventDefault");
-    submit();
+    afterEach(() => {
+      document.body.innerHTML = "";
+      consoleErrorSpy.mockReset();
+    });
 
-    expect(preventDefaultSpy).toHaveBeenCalledOnce();
+    function submit() {
+      const submitEvent = new CustomEvent("submit");
+      formEl.dispatchEvent(submitEvent);
+    }
+
+    test("updates the table on submit", () => {
+      formEl.id = "form";
+      tableEl.id = "table";
+
+      document.body.appendChild(formEl);
+      document.body.appendChild(tableEl);
+
+      main();
+
+      setFormValues("Bills", 24);
+      submit();
+
+      expect(tableEl.querySelectorAll("tr")).lengthOf(1);
+    });
+
+    test("logs error when form element is missing", () => {
+      tableEl.id = "table";
+      document.body.appendChild(tableEl);
+
+      main();
+      setFormValues("Bills", 24);
+      submit();
+
+      expect(consoleErrorSpy).toHaveBeenCalledExactlyOnceWith("Form not found");
+    });
+
+    test("logs error when table element is missing", () => {
+      formEl.id = "form";
+      document.body.appendChild(formEl);
+
+      main();
+      setFormValues("Bills", 24);
+      submit();
+
+      expect(consoleErrorSpy).toHaveBeenCalledExactlyOnceWith("Form not found");
+    });
   });
 
-  test("appends a new row to the table", () => {
-    setFormValues("Bills", 24);
-    submit();
+  describe("onSubmit", () => {
+    let e: SubmitEvent;
 
-    const rows = tableEl.querySelectorAll("tr");
-    expect(rows).lengthOf(1);
+    beforeEach(() => {
+      e = new SubmitEvent("submit");
+    });
 
-    const [categoryCellEl, amountCellEl] = Array.from(
-      rows[0].querySelectorAll("td"),
-    );
-    expect(categoryCellEl.innerText).toBe("Bills");
-    expect(amountCellEl.innerText).toBe("24$");
-  });
+    function submit() {
+      onSubmit(e, formEl, tableEl);
+    }
 
-  test("resets the form values", () => {
-    setFormValues("Car repayment", 400);
-    submit();
+    test("prevents default on the submit event", () => {
+      setFormValues("Groceries", 12);
+      const preventDefaultSpy = vi.spyOn(e, "preventDefault");
+      submit();
 
-    expect(categoryInputEl.value).toBe("");
-    expect(amountInputEl.value).toBe("");
+      expect(preventDefaultSpy).toHaveBeenCalledOnce();
+    });
+
+    test("appends a new row to the table", () => {
+      setFormValues("Bills", 24);
+      submit();
+
+      const rows = tableEl.querySelectorAll("tr");
+      expect(rows).lengthOf(1);
+
+      const [categoryCellEl, amountCellEl] = Array.from(
+        rows[0].querySelectorAll("td"),
+      );
+      expect(categoryCellEl.innerText).toBe("Bills");
+      expect(amountCellEl.innerText).toBe("24$");
+    });
+
+    test("resets the form values", () => {
+      setFormValues("Car repayment", 400);
+      submit();
+
+      expect(categoryInputEl.value).toBe("");
+      expect(amountInputEl.value).toBe("");
+    });
+
+    test("throws error when category is missing", () => {
+      setFormValues(null, 1);
+
+      expect(() => submit()).toThrowError("Invalid category or amount");
+    });
+
+    test("throws error when amount is missing", () => {
+      setFormValues("Utilities", null);
+
+      expect(() => submit()).toThrowError("Invalid category or amount");
+    });
   });
 });
