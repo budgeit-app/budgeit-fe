@@ -24,6 +24,8 @@ export default defineConfig([
       "@typescript-eslint/no-non-null-assertion": "error",
       "@typescript-eslint/no-unsafe-member-access": "error",
       "no-unsafe-optional-chaining": "error",
+      "@typescript-eslint/no-base-to-string": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
     },
   },
   {

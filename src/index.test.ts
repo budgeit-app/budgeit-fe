@@ -33,6 +33,7 @@ describe("onSubmit", () => {
   }
 
   test("prevents default on the submit event", () => {
+    setFormValues("Groceries", 12);
     const preventDefaultSpy = vi.spyOn(e, "preventDefault");
     submit();
 

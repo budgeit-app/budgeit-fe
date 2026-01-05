@@ -17,12 +17,12 @@ export function onSubmit(
   tableRowEl.className = "border-t-solid border-t-1 border-t-neutral-600";
 
   const categoryTableCellEl = document.createElement("td");
-  categoryTableCellEl.innerText = JSON.stringify(category);
+  categoryTableCellEl.innerText = String(category);
   categoryTableCellEl.className =
     "border-r-solid border-r-1 border-r-neutral-600";
 
   const amountCellEl = document.createElement("td");
-  amountCellEl.innerText = `${JSON.stringify(amount)}$`;
+  amountCellEl.innerText = `${amount}$`;
 
   tableRowEl.appendChild(categoryTableCellEl);
   tableRowEl.appendChild(amountCellEl);
