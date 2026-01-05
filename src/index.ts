@@ -17,7 +17,6 @@ export function onSubmit(e: SubmitEvent, formEl: HTMLFormElement, tableEl: HTMLT
 
   tableRowEl.appendChild(categoryTableCellEl);
   tableRowEl.appendChild(amountCellEl);
-
   tableEl.appendChild(tableRowEl);
 
   formEl.reset();
