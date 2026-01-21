@@ -1,0 +1,21 @@
+# VCS
+.git
+.gitignore
+.github
+
+# Dependencies
+node_modules
+
+# Build output (if rebuilt in Docker)
+/dist
+/build
+
+# Logs & caches
+npm-debug.log
+coverage
+
+# OS junk
+.DS_Store
+
+# Editor
+.idea
