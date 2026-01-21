@@ -36,3 +36,6 @@ jobs:
 
       - name: Test with coverage
         run: npm run test:coverage
+
+      - name: Build Docker image
+        run: docker build -t budgeit-fe:latest .
