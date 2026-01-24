@@ -65,7 +65,7 @@ jobs:
       - name: Deploy via SSH
         run: |
           IMAGE_TAG=ghcr.io/${{ github.repository_owner }}/budgeit-fe-rc:${{ github.sha }}
-          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << EOF
             echo "Pulling latest Docker image..."
             docker pull $IMAGE_TAG
 
