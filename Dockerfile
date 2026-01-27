@@ -18,8 +18,8 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy built static files
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose HTTP port
-EXPOSE 80
+# Expose HTTP and HTTPS ports
+EXPOSE 80 443
 
 # Run nginx
 CMD ["nginx", "-g", "daemon off;"]
