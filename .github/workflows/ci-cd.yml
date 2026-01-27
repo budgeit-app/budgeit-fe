@@ -80,9 +80,9 @@ jobs:
               --name budgeit-fe \
               -p 80:80 \
               -p 443:443 \
-              -v $REMOTE_APP_DIR/nginx/default.conf:/etc/nginx/conf.d/default.conf \
-              -v $REMOTE_APP_DIR/certbot/www:/var/www/certbot \
-              -v $REMOTE_APP_DIR/certbot/conf:/etc/letsencrypt \
+              -v \$REMOTE_APP_DIR/nginx/default.conf:/etc/nginx/conf.d/default.conf \
+              -v \$REMOTE_APP_DIR/certbot/www:/var/www/certbot \
+              -v \$REMOTE_APP_DIR/certbot/conf:/etc/letsencrypt \
               --restart unless-stopped \
               $IMAGE_TAG
           EOF
