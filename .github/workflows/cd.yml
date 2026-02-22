@@ -1,0 +1,62 @@
+name: CD
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build + push image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/budgeit-fe:${{ github.sha }}
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+  update-cluster-config:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout cluster-config
+        uses: actions/checkout@v4
+        with:
+          repository: budgeit-app/cluster-config
+          token: ${{ secrets.CLUSTER_CONFIG_PAT }}
+
+      - name: Update image tag
+        run: |
+          sed -i "s|image: ghcr.io/budgeit-app/budgeit-fe:.*|image: ghcr.io/budgeit-app/budgeit-fe:${{ github.sha }}|" \
+            manifests/budgeit-fe/deployment.yml
+
+      - name: Commit + push branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b budgeit-fe-${{ github.sha }}
+          git add manifests/budgeit-fe/deployment.yml
+          git commit -m "update budgeit-fe to ${{ github.sha }}"
+          git push origin budgeit-fe-${{ github.sha }}
+
+      - name: Open PR
+        env:
+          GH_TOKEN: ${{ secrets.CLUSTER_CONFIG_PAT }}
+        run: |
+          gh pr create \
+            --repo budgeit-app/cluster-config \
+            --head budgeit-fe-${{ github.sha }} \
+            --base main \
+            --title "update budgeit-fe to ${{ github.sha }}" \
+            --body "Automated update from budgeit-fe commit ${{ github.sha }}"

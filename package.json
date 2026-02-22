@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mishotek/budgeit.git"
+    "url": "git+https://github.com/budgeit-app/budgeit-fe.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mishotek/budgeit/issues"
+    "url": "https://github.com/budgeit-app/budgeit-fe/issues"
   },
-  "homepage": "https://github.com/mishotek/budgeit#readme",
+  "homepage": "https://github.com/budgeit-app/budgeit-fet#readme",
   "devDependencies": {
     "@eslint/css": "^0.14.1",
     "@eslint/js": "^9.39.2",

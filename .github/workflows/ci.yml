@@ -50,7 +50,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_TAG=ghcr.io/${{ github.repository_owner }}/budgeit-fe:${{ github.sha }}
+          IMAGE_TAG=ghcr.io/${{ github.repository_owner }}/budgeit-fe:${{ github.event.pull_request.number }}
           docker build -t $IMAGE_TAG .
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
